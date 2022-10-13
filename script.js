@@ -1,13 +1,20 @@
-const GRID_SIZE = 16;
-const CELL_WIDTH = Math.floor((0.8 * window.visualViewport.height) / GRID_SIZE);
-const GRID_WIDTH = GRID_SIZE * (CELL_WIDTH + 2);
+let gridSize = 16;
+let cellWidth = Math.floor((0.8 * window.visualViewport.height) / gridSize);
+let gridWidth = gridSize * (cellWidth + 2);
 
 const gridBox = document.querySelector("section.grid");
-gridBox.style.width = `${GRID_WIDTH}px`;
-gridBox.style.height = `${GRID_WIDTH}px`;
-gridBox.addEventListener("mouseover", changeColor, gridBox);
+gridBox.style.width = `${gridWidth}px`;
+gridBox.style.height = `${gridWidth}px`;
+gridBox.addEventListener("mouseover", changeColor);
 
-populateGridBox(gridBox, GRID_SIZE, CELL_WIDTH);
+const dialogElement = document.querySelector("dialog.set-size");
+const changeSizeButton = document.querySelector("button.change-size");
+changeSizeButton.addEventListener("click", openDialog);
+
+const confirmSizeButton = document.querySelector("button.confirm-size");
+confirmSizeButton.addEventListener("click", confirmSize);
+
+populateGridBox(gridBox, gridSize, cellWidth);
 
 function populateGridBox(gridElement, size, cellSize) {
 	const cells = [];
@@ -31,4 +38,15 @@ function changeColor(event) {
 	if (cell != gridBox) {
 		cell.style.backgroundColor = "black";
 	}
+}
+
+function openDialog(event) {
+	dialogElement.showModal();
+}
+
+function confirmSize(event) {
+	// const input = document.querySelector("")
+	gridSize = 16;
+	cellWidth = Math.floor((0.8 * window.visualViewport.height) / gridSize);
+	gridWidth = gridSize * (cellWidth + 2);
 }
