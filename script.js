@@ -9,18 +9,13 @@ class Grid {
 		this.#size = size;
 		this.#cells = [];
 		this.#gridContainerElement = document.querySelector("section.grid");
+		this.#createGrid();
 		this.#updateGridSize();
 		this.#populateGrid();
-		this.#gridContainerElement.addEventListener("mouseover", (event) => {
-			const cell = event.target;
-			if (cell != this.#gridContainerElement) {
-				cell.style.backgroundColor = "black";
-			}
-		});
 	}
 
 	get cellWidth() {
-		return Math.floor((0.8 * window.visualViewport.height) / this.#size);
+		return Math.floor((0.9 * window.visualViewport.height) / this.#size);
 	}
 
 	get gridWidth() {
@@ -46,10 +41,23 @@ class Grid {
 	}
 
 	#clearGrid() {
-		for (let cell of this.#cells) {
-			cell.remove();
-		}
+		this.#gridContainerElement.remove();
+		this.#createGrid();
 		this.#cells = [];
+	}
+
+	#createGrid() {
+		this.#gridContainerElement = document.createElement("section");
+		this.#gridContainerElement.className = "grid";
+		this.#gridContainerElement.addEventListener("mouseover", (event) => {
+			const cell = event.target;
+			if (cell != this.#gridContainerElement) {
+				cell.style.backgroundColor = "black";
+			}
+		});
+		document
+			.querySelector("div.grid-wrapper")
+			.appendChild(this.#gridContainerElement);
 	}
 
 	#updateGridSize() {
