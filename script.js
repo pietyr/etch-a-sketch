@@ -2,12 +2,10 @@
 
 class Grid {
 	#size;
-	#cells;
 	#gridContainerElement;
 
 	constructor(size = 16) {
 		this.#size = size;
-		this.#cells = [];
 		this.#gridContainerElement = document.querySelector("section.grid");
 		this.#createGrid();
 		this.#updateGridSize();
@@ -30,12 +28,12 @@ class Grid {
 	}
 
 	#populateGrid() {
+		const width = `${this.cellWidth}px`;
 		for (let i = 0; i < this.#size ** 2; i++) {
 			const cell = document.createElement("div");
 			cell.className = "cell";
-			cell.style.width = `${this.cellWidth}px`;
-			cell.style.height = `${this.cellWidth}px`;
-			this.#cells[i] = cell;
+			cell.style.width = width;
+			cell.style.height = width;
 			this.#gridContainerElement.appendChild(cell);
 		}
 	}
@@ -43,7 +41,6 @@ class Grid {
 	#clearGrid() {
 		this.#gridContainerElement.remove();
 		this.#createGrid();
-		this.#cells = [];
 	}
 
 	#createGrid() {
