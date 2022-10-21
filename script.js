@@ -6,14 +6,16 @@ class Grid {
 
 	constructor(size = 16) {
 		this.#size = size;
-		this.#gridContainerElement = document.querySelector("section.grid");
+		this.#gridContainerElement = document.querySelector("div.grid-wrapper");
 		this.#createGrid();
 		this.#updateGridSize();
 		this.#populateGrid();
 	}
 
 	get cellWidth() {
-		return Math.floor((0.9 * window.visualViewport.height) / this.#size);
+		const parentElementHeight =
+			document.querySelector("div.grid-wrapper").offsetHeight;
+		return Math.floor(parentElementHeight / this.#size);
 	}
 
 	get gridWidth() {
@@ -65,22 +67,22 @@ class Grid {
 
 const grid = new Grid();
 
-const dialogElement = document.querySelector("dialog.set-size");
-const changeSizeButton = document.querySelector("button.change-size");
-changeSizeButton.addEventListener("click", openDialog);
+// const dialogElement = document.querySelector("dialog.set-size");
+// const changeSizeButton = document.querySelector("button.change-size");
+// changeSizeButton.addEventListener("click", openDialog);
 
-const confirmSizeButton = document.querySelector("button.confirm-size");
-confirmSizeButton.addEventListener("click", confirmSize);
+// const confirmSizeButton = document.querySelector("button.confirm-size");
+// confirmSizeButton.addEventListener("click", confirmSize);
 
-function openDialog(event) {
-	dialogElement.showModal();
-}
+// function openDialog(event) {
+// 	dialogElement.showModal();
+// }
 
-function confirmSize(event) {
-	const input = document.querySelector("input.size-input");
-	const inputValue = Number(input.value);
-	if (Number.isSafeInteger(inputValue)) {
-		grid.changeSize(inputValue);
-		dialogElement.close();
-	}
-}
+// function confirmSize(event) {
+// 	const input = document.querySelector("input.size-input");
+// 	const inputValue = Number(input.value);
+// 	if (Number.isSafeInteger(inputValue)) {
+// 		grid.changeSize(inputValue);
+// 		dialogElement.close();
+// 	}
+// }

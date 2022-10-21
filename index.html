@@ -5,19 +5,206 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Etch-a-sketch</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
+			rel="stylesheet"
+		/>
 		<link rel="stylesheet" href="style.css" />
 		<script src="script.js" defer></script>
+		<script
+			src="https://kit.fontawesome.com/00bb510311.js"
+			crossorigin="anonymous"
+			defer
+		></script>
 	</head>
 	<body>
-		<div class="grid-wrapper"></div>
-		<button type="button" class="change-size">Change size</button>
-		<dialog class="set-size">
-			<h2>Set new size</h2>
-			<label>
-				New size
-				<input class="size-input" type="text" />
-			</label>
-			<button type="button" class="confirm-size">Confirm</button>
-		</dialog>
+		<h1>Etch-a-sketch</h1>
+		<main>
+			<div class="interface">
+				<section class="settings">
+					<menu>
+						<li>
+							<button type="button" class="change-size">
+								Change size
+							</button>
+						</li>
+						<li>
+							<button type="button" class="toggle-grid-lines">
+								Toggle Grid Lines
+							</button>
+						</li>
+						<li>
+							<button type="button" class="classic-mode">
+								Classic mode
+							</button>
+						</li>
+						<li>
+							<button type="button" class="rainbow-mode">
+								Rainbow Mode
+							</button>
+						</li>
+						<li>
+							<button type="button" class="clear">Clear</button>
+						</li>
+					</menu>
+				</section>
+				<div class="radio-sections-wrapper">
+					<section class="color-picker">
+						<input
+							type="radio"
+							name="color"
+							value="black"
+							class="color-cell black"
+							checked
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="dark-gray"
+							class="color-cell dark-gray"
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="gray"
+							class="color-cell gray"
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="white"
+							class="color-cell white"
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="red"
+							class="color-cell red"
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="orange"
+							class="color-cell orange"
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="yellow"
+							class="color-cell yellow"
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="lime"
+							class="color-cell lime"
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="green"
+							class="color-cell green"
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="cyan"
+							class="color-cell cyan"
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="aqua"
+							class="color-cell aqua"
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="light-blue"
+							class="color-cell light-blue"
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="blue"
+							class="color-cell blue"
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="violet"
+							class="color-cell violet"
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="magenta"
+							class="color-cell magenta"
+						/>
+						<input
+							type="radio"
+							name="color"
+							value="pink"
+							class="color-cell pink"
+						/>
+					</section>
+					<section class="toolbar">
+						<div class="tool-wrapper">
+							<input
+								type="radio"
+								id="pencil-radio"
+								name="tool"
+								value="pencil"
+								checked
+							/>
+							<label for="pencil-radio"
+								><i class="fa-solid fa-pencil"></i
+							></label>
+						</div>
+						<div class="tool-wrapper">
+							<input
+								type="radio"
+								id="eraser-radio"
+								name="tool"
+								value="eraser"
+							/>
+							<label for="eraser-radio"
+								><i class="fa-solid fa-eraser"></i
+							></label>
+						</div>
+						<div class="tool-wrapper">
+							<input
+								type="radio"
+								id="spray-radio"
+								name="tool"
+								value="spray"
+							/>
+							<label for="spray-radio"
+								><i class="fa-solid fa-spray-can"></i
+							></label>
+						</div>
+						<div class="tool-wrapper">
+							<input
+								type="radio"
+								id="fill-radio"
+								name="tool"
+								value="fill"
+							/>
+							<label for="fill-radio"
+								><i class="fa-solid fa-fill-drip"></i
+							></label>
+						</div>
+					</section>
+				</div>
+			</div>
+			<div class="grid-wrapper"></div>
+		</main>
+		<footer>
+			<p>
+				&copy; 2022 <a href="https://github.com/pietyr">Piotr Kisiel</a>
+			</p>
+		</footer>
 	</body>
 </html>
