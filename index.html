@@ -12,7 +12,7 @@
 			rel="stylesheet"
 		/>
 		<link rel="stylesheet" href="style.css" />
-		<script src="script.js" defer></script>
+		<!-- <script src="script.js" defer></script> -->
 		<script
 			src="https://kit.fontawesome.com/00bb510311.js"
 			crossorigin="anonymous"
@@ -23,183 +23,266 @@
 		<h1>Etch-a-sketch</h1>
 		<main>
 			<div class="interface">
-				<section class="settings">
-					<menu>
-						<li>
-							<button type="button" class="change-size">
-								Change size
-							</button>
-						</li>
-						<li>
-							<button type="button" class="toggle-grid-lines">
-								Toggle Grid Lines
-							</button>
-						</li>
-						<li>
-							<button type="button" class="classic-mode">
-								Classic mode
-							</button>
-						</li>
-						<li>
-							<button type="button" class="rainbow-mode">
-								Rainbow Mode
-							</button>
-						</li>
-						<li>
-							<button type="button" class="clear">Clear</button>
-						</li>
-					</menu>
-				</section>
-				<div class="radio-sections-wrapper">
-					<section class="color-picker">
-						<input
-							type="radio"
-							name="color"
-							value="black"
-							class="color-cell black"
-							checked
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="dark-gray"
-							class="color-cell dark-gray"
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="gray"
-							class="color-cell gray"
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="white"
-							class="color-cell white"
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="red"
-							class="color-cell red"
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="orange"
-							class="color-cell orange"
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="yellow"
-							class="color-cell yellow"
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="lime"
-							class="color-cell lime"
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="green"
-							class="color-cell green"
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="cyan"
-							class="color-cell cyan"
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="aqua"
-							class="color-cell aqua"
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="light-blue"
-							class="color-cell light-blue"
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="blue"
-							class="color-cell blue"
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="violet"
-							class="color-cell violet"
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="magenta"
-							class="color-cell magenta"
-						/>
-						<input
-							type="radio"
-							name="color"
-							value="pink"
-							class="color-cell pink"
-						/>
-					</section>
-					<section class="toolbar">
-						<div class="tool-wrapper">
-							<input
-								type="radio"
-								id="pencil-radio"
-								name="tool"
-								value="pencil"
-								checked
-							/>
-							<label for="pencil-radio"
-								><i class="fa-solid fa-pencil"></i
-							></label>
+				<div class="toolbar-wrapper">
+					<h2>Settings</h2>
+					<section class="settings">
+						<div class="grid-size">
+							<h3>Grid size</h3>
+							<menu>
+								<li>
+									<label for="radio-8"
+										><input
+											type="radio"
+											name="grid-size-radio"
+											value="8"
+											id="radio-8"
+										/>8 x 8</label
+									>
+								</li>
+								<li>
+									<label for="radio-16"
+										><input
+											type="radio"
+											name="grid-size-radio"
+											value="16"
+											id="radio-16"
+											checked
+										/>16 x 16</label
+									>
+								</li>
+								<li>
+									<label for="radio-32"
+										><input
+											type="radio"
+											name="grid-size-radio"
+											value="32"
+											id="radio-32"
+										/>32 x 32</label
+									>
+								</li>
+								<li>
+									<label for="radio-64"
+										><input
+											type="radio"
+											name="grid-size-radio"
+											value="64"
+											id="radio-64"
+										/>64 x 64</label
+									>
+								</li>
+							</menu>
 						</div>
-						<div class="tool-wrapper">
+						<div class="pencil-size">
+							<h3>Pencil size</h3>
 							<input
-								type="radio"
-								id="eraser-radio"
-								name="tool"
-								value="eraser"
+								type="range"
+								name="pencil-size"
+								min="1"
+								max="3"
+								step="1"
+								value="1"
 							/>
-							<label for="eraser-radio"
-								><i class="fa-solid fa-eraser"></i
-							></label>
 						</div>
-						<div class="tool-wrapper">
-							<input
-								type="radio"
-								id="spray-radio"
-								name="tool"
-								value="spray"
-							/>
-							<label for="spray-radio"
-								><i class="fa-solid fa-spray-can"></i
-							></label>
+						<div class="mode-settings">
+							<h3>Pencil mode</h3>
+							<menu>
+								<li>
+									<label>
+										<input
+											type="radio"
+											name="pencil-mode"
+											value="continuous"
+											checked
+										/>continuous
+									</label>
+								</li>
+								<li>
+									<label>
+										<input
+											type="radio"
+											name="pencil-mode"
+											value="on-click"
+										/>on click
+									</label>
+								</li>
+							</menu>
 						</div>
-						<div class="tool-wrapper">
-							<input
-								type="radio"
-								id="fill-radio"
-								name="tool"
-								value="fill"
-							/>
-							<label for="fill-radio"
-								><i class="fa-solid fa-fill-drip"></i
-							></label>
+						<div class="grid-lines">
+							<label class="toggle">
+								<input
+									class="toggle-checkbox"
+									type="checkbox"
+									checked
+								/>
+								<div class="toggle-switch"></div>
+								<span class="toggle-label"
+									>Show grid lines</span
+								>
+							</label>
 						</div>
+						<button type="button" class="clear-grid">
+							Clear grid
+						</button>
 					</section>
 				</div>
+				<div class="radio-sections-wrapper">
+					<div class="toolbar-wrapper">
+						<h2>Tool</h2>
+						<section class="toolbar">
+							<div class="tool-wrapper">
+								<input
+									type="radio"
+									id="pencil-radio"
+									name="tool"
+									value="pencil"
+									checked
+								/>
+								<label for="pencil-radio"
+									><i class="fa-solid fa-pencil"></i
+								></label>
+							</div>
+							<div class="tool-wrapper">
+								<input
+									type="radio"
+									id="eraser-radio"
+									name="tool"
+									value="eraser"
+								/>
+								<label for="eraser-radio"
+									><i class="fa-solid fa-eraser"></i
+								></label>
+							</div>
+							<div class="tool-wrapper">
+								<input
+									type="radio"
+									id="spray-radio"
+									name="tool"
+									value="spray"
+								/>
+								<label for="spray-radio"
+									><i class="fa-solid fa-spray-can"></i
+								></label>
+							</div>
+							<div class="tool-wrapper">
+								<input
+									type="radio"
+									id="fill-radio"
+									name="tool"
+									value="fill"
+								/>
+								<label for="fill-radio"
+									><i class="fa-solid fa-fill-drip"></i
+								></label>
+							</div>
+						</section>
+					</div>
+					<div class="toolbar-wrapper">
+						<h2>Pencil color</h2>
+						<section class="color-picker">
+							<input
+								type="radio"
+								name="color"
+								value="black"
+								class="color-cell black"
+								checked
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="dark-gray"
+								class="color-cell dark-gray"
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="gray"
+								class="color-cell gray"
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="white"
+								class="color-cell white"
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="red"
+								class="color-cell red"
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="orange"
+								class="color-cell orange"
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="yellow"
+								class="color-cell yellow"
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="lime"
+								class="color-cell lime"
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="green"
+								class="color-cell green"
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="cyan"
+								class="color-cell cyan"
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="aqua"
+								class="color-cell aqua"
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="light-blue"
+								class="color-cell light-blue"
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="blue"
+								class="color-cell blue"
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="violet"
+								class="color-cell violet"
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="magenta"
+								class="color-cell magenta"
+							/>
+							<input
+								type="radio"
+								name="color"
+								value="pink"
+								class="color-cell pink"
+							/>
+						</section>
+					</div>
+				</div>
 			</div>
-			<div class="grid-wrapper"></div>
+			<div class="grid-wrapper">
+				<section class="grid"></section>
+			</div>
 		</main>
 		<footer>
 			<p>
