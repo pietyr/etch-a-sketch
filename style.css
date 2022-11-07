@@ -271,6 +271,7 @@ input[type="range"]::-webkit-slider-thumb {
 	background: var(--pink);
 	cursor: pointer;
 	-webkit-appearance: none;
+	appearance: none;
 	margin-top: -0.5rem;
 
 	/* transform: translateY(25%); */
@@ -377,7 +378,7 @@ section.settings button.clear-grid {
 section.settings button.clear-grid::before {
 	position: absolute;
 	content: "";
-	width: 100%;
+	width: calc(100% + 1px);
 	height: 100%;
 	top: 0;
 	left: 0;
@@ -408,7 +409,7 @@ section.settings button.clear-grid:active {
 }
 
 section.settings button.clear-grid:active::before {
-	box-shadow: 0 0 0 2px var(--dark), 0 0 var(--dark);
+	box-shadow: 0 0 0 0px var(--dark), 0 0 var(--dark);
 	transform: translate3d(0, 0, -1em);
 }
 
@@ -488,28 +489,54 @@ section.color-picker {
 }
 
 input[type="radio"].color-cell {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
 	appearance: none;
+	border: 1px solid var(--pink);
 	margin: 0;
 	flex: 0 0 2rem;
-	display: block;
-	cursor: pointer;
 	height: 2rem;
-	border: 1px solid black;
-	transition: 0.1s;
 	border-radius: 5px;
+	transform-style: preserve-3d;
+	transition: 0.15s cubic-bezier(0, 0, 0.58, 1);
+}
+
+input[type="radio"].color-cell::before {
+	position: absolute;
+	content: "";
+	width: calc(100% + 1px);
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: var(--pink);
+	border-radius: inherit;
+	/* offset-x | offset-y | blur-radius | spread-radius | color */
+	box-shadow: 1px 1px 4px 2px black;
+	transform: translate3d(0, 0.75em, -1em);
+	transition: 0.15s cubic-bezier(0, 0, 0.58, 1);
 }
 
 input[type="radio"].color-cell:hover {
-	border: 3px solid black;
+	/* border: 1px solid var(--blue); */
+	transform: translate(0, 0.25em);
 }
 
-input[type="radio"].color-cell.black:hover,
-input[type="radio"].color-cell.dark-gray:hover {
-	border: 3px solid #ccc;
+input[type="radio"].color-cell:hover::before {
+	box-shadow: 1px 1px 3px 1px black;
+	transform: translate3d(0, 0.5em, -1em);
 }
 
 input[type="radio"].color-cell:checked {
-	border: 3px solid blue;
+	border: 3px solid var(--yellow);
+	transform: translate(0em, 0.75em);
+}
+
+input[type="radio"].color-cell:checked::before {
+	box-shadow: 0 0 0 0px var(--dark), 0 0 var(--dark);
+	transform: translate3d(0, 0, -1em);
 }
 
 footer {
