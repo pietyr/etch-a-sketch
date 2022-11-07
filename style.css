@@ -10,6 +10,23 @@
 	--blue: #118ab2;
 	--dark: #073b4c;
 
+	--cell-black: #000000;
+	--cell-dark-gray: #606060;
+	--cell-gray: #a0a0a0;
+	--cell-white: #ffffff;
+	--cell-red: #ff0000;
+	--cell-orange: #ff8000;
+	--cell-yellow: #ffff00;
+	--cell-lime: #80ff00;
+	--cell-green: #00ff00;
+	--cell-cyan: #00ff80;
+	--cell-aqua: #00ffff;
+	--cell-light-blue: #0080ff;
+	--cell-blue: #0000ff;
+	--cell-violet: #8000ff;
+	--cell-magenta: #ff00ff;
+	--cell-pink: #ff0080;
+
 	--grid-line-color: #808080;
 
 	--base-cell-size: 5;

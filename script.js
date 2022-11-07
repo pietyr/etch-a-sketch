@@ -3,10 +3,12 @@
 class Grid {
 	#gridSize;
 	#gridContainerElement;
+	#selectedColor;
 
 	constructor(gridSize = 16) {
 		this.#gridSize = gridSize;
 		this.#gridContainerElement = document.querySelector("div.grid-wrapper");
+		this.#selectedColor = "black";
 		this.#createGrid();
 		this.#updateGridSize();
 		this.#populateGrid();
@@ -27,6 +29,10 @@ class Grid {
 		this.#clearGrid();
 		this.#updateGridSize();
 		this.#populateGrid();
+	}
+
+	changePencilColor(newColor) {
+		this.#selectedColor = newColor;
 	}
 
 	#populateGrid() {
@@ -51,7 +57,9 @@ class Grid {
 		this.#gridContainerElement.addEventListener("mouseover", (event) => {
 			const cell = event.target;
 			if (cell != this.#gridContainerElement) {
-				cell.style.backgroundColor = "black";
+				cell.style.backgroundColor = `var(--cell-${
+					this.#selectedColor
+				})`;
 			}
 		});
 		document
@@ -66,6 +74,18 @@ class Grid {
 }
 
 const grid = new Grid();
+
+const gridSizeMenu = document.querySelector(".grid-size menu");
+gridSizeMenu.addEventListener("change", function changeSize(e) {
+	const selectedGridSizeValue = Number(e.target.value);
+	grid.changeSize(selectedGridSizeValue);
+});
+
+const colorPicker = document.querySelector(".color-picker");
+colorPicker.addEventListener("change", function changeColor(e) {
+	const selectedColor = e.target.value;
+	grid.changePencilColor(selectedColor);
+});
 
 // const rootElement = document.querySelector(":root");
 // const rootComputedStyle = getComputedStyle(rootElement);
@@ -83,11 +103,6 @@ const grid = new Grid();
 // const dialogElement = document.querySelector("dialog.set-size");
 // const changeSizeButton = document.querySelector("button.change-size");
 // changeSizeButton.addEventListener("click", openDialog);
-const gridSizeMenu = document.querySelector(".grid-size menu");
-gridSizeMenu.addEventListener("change", function changeSize(e) {
-	const selectedGridSizeValue = Number(e.target.value);
-	grid.changeSize(selectedGridSizeValue);
-});
 
 // const confirmSizeButton = document.querySelector("button.confirm-size");
 // confirmSizeButton.addEventListener("click", confirmSize);
