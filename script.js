@@ -4,11 +4,15 @@ class Grid {
 	#gridSize;
 	#gridContainerElement;
 	#selectedColor;
+	#pencilSize;
+	#cells;
 
 	constructor(gridSize = 16) {
 		this.#gridSize = gridSize;
 		this.#gridContainerElement = document.querySelector("div.grid-wrapper");
 		this.#selectedColor = "black";
+		this.#pencilSize = 1;
+		this.#cells = [];
 		this.#createGrid();
 		this.#updateGridSize();
 		this.#populateGrid();
@@ -41,14 +45,24 @@ class Grid {
 		this.#selectedColor = newColor;
 	}
 
+	changePencilSize(newPencilSize) {
+		this.#pencilSize = newPencilSize;
+	}
+
 	#populateGrid() {
 		const width = `${this.cellWidth}px`;
-		for (let i = 0; i < this.#gridSize ** 2; i++) {
-			const cell = document.createElement("div");
-			cell.className = "cell";
-			cell.style.width = width;
-			cell.style.height = width;
-			this.#gridContainerElement.appendChild(cell);
+		for (let i = 0; i < this.#gridSize; i++) {
+			this.#cells[i] = [];
+			for (let j = 0; j < this.#gridSize; j++) {
+				const cell = document.createElement("div");
+				cell.className = "cell";
+				cell.style.width = width;
+				cell.style.height = width;
+				cell.dataset.column = j;
+				cell.dataset.row = i;
+				this.#cells[i][j] = cell;
+				this.#gridContainerElement.appendChild(cell);
+			}
 		}
 	}
 
@@ -66,6 +80,129 @@ class Grid {
 				cell.style.backgroundColor = `var(--cell-${
 					this.#selectedColor
 				})`;
+				if (this.#pencilSize > 1) {
+					const currentCellRow = Number(cell.dataset.row);
+					const currentCellColumn = Number(cell.dataset.column);
+
+					// left cell [0][-1]
+					if (currentCellColumn > 0) {
+						this.#cells[currentCellRow][
+							currentCellColumn - 1
+						].style.backgroundColor = `var(--cell-${
+							this.#selectedColor
+						})`;
+					}
+
+					// top cell [-1][0]
+					if (currentCellRow > 0) {
+						this.#cells[currentCellRow - 1][
+							currentCellColumn
+						].style.backgroundColor = `var(--cell-${
+							this.#selectedColor
+						})`;
+					}
+
+					// right cell [0][+1]
+					if (currentCellColumn < this.#gridSize - 1) {
+						this.#cells[currentCellRow][
+							currentCellColumn + 1
+						].style.backgroundColor = `var(--cell-${
+							this.#selectedColor
+						})`;
+					}
+
+					// bottom cell [+1][0]
+					if (currentCellRow < this.#gridSize - 1) {
+						this.#cells[currentCellRow + 1][
+							currentCellColumn
+						].style.backgroundColor = `var(--cell-${
+							this.#selectedColor
+						})`;
+					}
+
+					if (this.#pencilSize == 3) {
+						// left [0][-2]
+						if (currentCellColumn > 1) {
+							this.#cells[currentCellRow][
+								currentCellColumn - 2
+							].style.backgroundColor = `var(--cell-${
+								this.#selectedColor
+							})`;
+						}
+
+						// left-top [-1][-1]
+						if (currentCellColumn > 0 && currentCellRow > 0) {
+							this.#cells[currentCellRow - 1][
+								currentCellColumn - 1
+							].style.backgroundColor = `var(--cell-${
+								this.#selectedColor
+							})`;
+						}
+
+						// top [-2][0]
+						if (currentCellRow > 1) {
+							this.#cells[currentCellRow - 2][
+								currentCellColumn
+							].style.backgroundColor = `var(--cell-${
+								this.#selectedColor
+							})`;
+						}
+
+						// right-top [-1][+1]
+						if (
+							currentCellColumn < this.#gridSize - 1 &&
+							currentCellRow > 0
+						) {
+							this.#cells[currentCellRow - 1][
+								currentCellColumn + 1
+							].style.backgroundColor = `var(--cell-${
+								this.#selectedColor
+							})`;
+						}
+
+						// right [0][+2]
+						if (currentCellColumn < this.#gridSize - 2) {
+							this.#cells[currentCellRow][
+								currentCellColumn + 2
+							].style.backgroundColor = `var(--cell-${
+								this.#selectedColor
+							})`;
+						}
+
+						// right-bot [+1][+1]
+						if (
+							currentCellColumn < this.#gridSize - 1 &&
+							currentCellRow < this.#gridSize - 1
+						) {
+							this.#cells[currentCellRow + 1][
+								currentCellColumn + 1
+							].style.backgroundColor = `var(--cell-${
+								this.#selectedColor
+							})`;
+						}
+
+						// bot [+2][0]
+						if (currentCellRow < this.#gridSize - 2) {
+							this.#cells[currentCellRow + 2][
+								currentCellColumn
+							].style.backgroundColor = `var(--cell-${
+								this.#selectedColor
+							})`;
+						}
+
+						// left-bot [+1][-1]
+						if (
+							currentCellRow < this.#gridSize - 1 &&
+							currentCellColumn > 0
+						) {
+							this.#cells[currentCellRow + 1][
+								currentCellColumn - 1
+							].style.backgroundColor = `var(--cell-${
+								this.#selectedColor
+							})`;
+						}
+					}
+				}
 			}
 		});
 		document
@@ -96,6 +233,11 @@ colorPicker.addEventListener("change", function changeColor(e) {
 const clearGridButton = document.querySelector("button.clear-grid");
 clearGridButton.addEventListener("click", function clearGrid() {
 	grid.clearGrid();
+});
+
+const pencilSizeSlider = document.querySelector(`input[name="pencil-size"]`);
+pencilSizeSlider.addEventListener("change", function changePencilSize(e) {
+	grid.changePencilSize(Number(e.target.value));
 });
 
 // const rootElement = document.querySelector(":root");
