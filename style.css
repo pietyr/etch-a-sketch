@@ -35,7 +35,7 @@ body {
 	min-height: 100vh;
 	background-color: var(--dark);
 	text-align: center;
-	font-family: "Mukta", sans-serif;
+	font-family: "Montserrat", sans-serif;
 }
 
 h1 {
@@ -366,7 +366,6 @@ section.settings button.clear-grid {
 
 	font-weight: 700;
 	color: black;
-	/* text-transform: uppercase; */
 	padding: 1.25rem 2rem;
 	background: var(--blue);
 	border: 2px solid var(--pink);
@@ -577,6 +576,26 @@ input[type="radio"].color-cell:checked::before {
 }
 
 footer {
+	color: white;
+	font-size: 1.25rem;
+}
+
+footer a {
+	text-decoration: none;
+	font-weight: 700;
+	color: var(--yellow);
+}
+
+footer a:hover {
+	color: var(--pink);
+}
+
+footer a:visited {
+	color: var(--yellow);
+}
+
+footer a:hover {
+	color: var(--pink);
 }
 
 .black {
