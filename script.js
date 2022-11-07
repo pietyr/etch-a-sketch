@@ -26,7 +26,13 @@ class Grid {
 
 	changeSize(newSize) {
 		this.#gridSize = newSize;
-		this.#clearGrid();
+		this.#removeGrid();
+		this.#updateGridSize();
+		this.#populateGrid();
+	}
+
+	clearGrid() {
+		this.#removeGrid();
 		this.#updateGridSize();
 		this.#populateGrid();
 	}
@@ -46,7 +52,7 @@ class Grid {
 		}
 	}
 
-	#clearGrid() {
+	#removeGrid() {
 		this.#gridContainerElement.remove();
 		this.#createGrid();
 	}
@@ -85,6 +91,11 @@ const colorPicker = document.querySelector(".color-picker");
 colorPicker.addEventListener("change", function changeColor(e) {
 	const selectedColor = e.target.value;
 	grid.changePencilColor(selectedColor);
+});
+
+const clearGridButton = document.querySelector("button.clear-grid");
+clearGridButton.addEventListener("click", function clearGrid() {
+	grid.clearGrid();
 });
 
 // const rootElement = document.querySelector(":root");
