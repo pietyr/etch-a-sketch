@@ -35,6 +35,7 @@ body {
 	min-height: 100vh;
 	background-color: var(--dark);
 	text-align: center;
+	font-family: "Mukta", sans-serif;
 }
 
 h1 {
@@ -358,14 +359,14 @@ section.settings button.clear-grid {
 	border: 0;
 	vertical-align: middle;
 	text-decoration: none;
-	font-size: 1.125rem;
+	font-size: 1.25rem;
 	font-family: inherit;
 	margin-top: 1.5rem;
 	margin-bottom: 1rem;
 
-	font-weight: 600;
+	font-weight: 700;
 	color: black;
-	text-transform: uppercase;
+	/* text-transform: uppercase; */
 	padding: 1.25rem 2rem;
 	background: var(--blue);
 	border: 2px solid var(--pink);
