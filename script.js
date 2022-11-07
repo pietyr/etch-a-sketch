@@ -1,11 +1,11 @@
 "use strict";
 
 class Grid {
-	#size;
+	#gridSize;
 	#gridContainerElement;
 
-	constructor(size = 16) {
-		this.#size = size;
+	constructor(gridSize = 16) {
+		this.#gridSize = gridSize;
 		this.#gridContainerElement = document.querySelector("div.grid-wrapper");
 		this.#createGrid();
 		this.#updateGridSize();
@@ -15,15 +15,15 @@ class Grid {
 	get cellWidth() {
 		const parentElementHeight =
 			document.querySelector("div.grid-wrapper").offsetHeight;
-		return Math.floor(parentElementHeight / this.#size);
+		return Math.floor(parentElementHeight / this.#gridSize);
 	}
 
 	get gridWidth() {
-		return this.#size * this.cellWidth;
+		return this.#gridSize * this.cellWidth;
 	}
 
 	changeSize(newSize) {
-		this.#size = newSize;
+		this.#gridSize = newSize;
 		this.#clearGrid();
 		this.#updateGridSize();
 		this.#populateGrid();
@@ -31,7 +31,7 @@ class Grid {
 
 	#populateGrid() {
 		const width = `${this.cellWidth}px`;
-		for (let i = 0; i < this.#size ** 2; i++) {
+		for (let i = 0; i < this.#gridSize ** 2; i++) {
 			const cell = document.createElement("div");
 			cell.className = "cell";
 			cell.style.width = width;
@@ -67,31 +67,27 @@ class Grid {
 
 const grid = new Grid();
 
-const rootElement = document.querySelector(":root");
-const rootComputedStyle = getComputedStyle(rootElement);
-console.log(
-	`--base-cell-size = ${rootComputedStyle.getPropertyValue(
-		"--base-cell-size"
-	)}, --number-of-cells = ${rootComputedStyle.getPropertyValue(
-		"--number-of-cells"
-	)}, --real-cell-size = ${rootComputedStyle.getPropertyValue(
-		"--real-cell-size"
-	)}`
-);
-rootElement.style.setProperty("--base-cell-size", 3);
-console.log(
-	`--base-cell-size = ${rootComputedStyle.getPropertyValue(
-		"--base-cell-size"
-	)}, --number-of-cells = ${rootComputedStyle.getPropertyValue(
-		"--number-of-cells"
-	)}, --real-cell-size = ${rootComputedStyle.getPropertyValue(
-		"--real-cell-size"
-	)}`
-);
+// const rootElement = document.querySelector(":root");
+// const rootComputedStyle = getComputedStyle(rootElement);
+// console.log(
+// 	`--base-cell-size = ${rootComputedStyle.getPropertyValue(
+// 		"--base-cell-size"
+// 	)}, --number-of-cells = ${rootComputedStyle.getPropertyValue(
+// 		"--number-of-cells"
+// 	)}, --real-cell-size = ${rootComputedStyle.getPropertyValue(
+// 		"--real-cell-size"
+// 	)}`
+// );
+// rootElement.style.setProperty("--base-cell-size", 3);
 
 // const dialogElement = document.querySelector("dialog.set-size");
 // const changeSizeButton = document.querySelector("button.change-size");
 // changeSizeButton.addEventListener("click", openDialog);
+const gridSizeMenu = document.querySelector(".grid-size menu");
+gridSizeMenu.addEventListener("change", function changeSize(e) {
+	const selectedGridSizeValue = Number(e.target.value);
+	grid.changeSize(selectedGridSizeValue);
+});
 
 // const confirmSizeButton = document.querySelector("button.confirm-size");
 // confirmSizeButton.addEventListener("click", confirmSize);
