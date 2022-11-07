@@ -67,18 +67,27 @@ class Grid {
 
 const grid = new Grid();
 
-// const rootElement = document.querySelector(":root");
-// const rootComputedStyle = getComputedStyle(rootElement);
-// console.log(
-// 	`--base-cell-size = ${rootComputedStyle.getPropertyValue(
-// 		"--base-cell-size"
-// 	)}, --number-of-cells = ${rootComputedStyle.getPropertyValue(
-// 		"--number-of-cells"
-// 	)}, --real-cell-size = ${rootComputedStyle.getPropertyValue(
-// 		"--real-cell-size"
-// 	)}`
-// );
-// rootElement.style.setProperty("--base-cell-size", 3);
+const rootElement = document.querySelector(":root");
+const rootComputedStyle = getComputedStyle(rootElement);
+console.log(
+	`--base-cell-size = ${rootComputedStyle.getPropertyValue(
+		"--base-cell-size"
+	)}, --number-of-cells = ${rootComputedStyle.getPropertyValue(
+		"--number-of-cells"
+	)}, --real-cell-size = ${rootComputedStyle.getPropertyValue(
+		"--real-cell-size"
+	)}`
+);
+rootElement.style.setProperty("--base-cell-size", 3);
+console.log(
+	`--base-cell-size = ${rootComputedStyle.getPropertyValue(
+		"--base-cell-size"
+	)}, --number-of-cells = ${rootComputedStyle.getPropertyValue(
+		"--number-of-cells"
+	)}, --real-cell-size = ${rootComputedStyle.getPropertyValue(
+		"--real-cell-size"
+	)}`
+);
 
 // const dialogElement = document.querySelector("dialog.set-size");
 // const changeSizeButton = document.querySelector("button.change-size");
