@@ -8,6 +8,8 @@ class Grid {
 	#cells;
 	#tool;
 	#pencilMode;
+	#callback;
+	#gridLinesVisible;
 
 	constructor(gridSize = 16) {
 		this.#gridSize = gridSize;
@@ -16,6 +18,8 @@ class Grid {
 		this.#pencilSize = 1;
 		this.#tool = "pencil";
 		this.#pencilMode = "continuous";
+		this.#gridLinesVisible = true;
+		this.#callback = this.#eventHandler.bind(this);
 		this.#cells = [];
 		this.#createGrid();
 		this.#updateGridSize();
@@ -43,6 +47,7 @@ class Grid {
 		this.#removeGrid();
 		this.#updateGridSize();
 		this.#populateGrid();
+		this.changePencilMode(this.#pencilMode);
 	}
 
 	changePencilColor(newColor) {
@@ -59,9 +64,52 @@ class Grid {
 
 	changePencilMode(mode) {
 		this.#pencilMode = mode;
+
+		if (mode == "on-click") {
+			this.#gridContainerElement.removeEventListener(
+				"mousemove",
+				this.#callback
+			);
+
+			this.#gridContainerElement.addEventListener(
+				"mousedown",
+				this.#callback
+			);
+
+			this.#gridContainerElement.addEventListener("mousedown", () => {
+				this.#gridContainerElement.addEventListener(
+					"mousemove",
+					this.#callback
+				);
+			});
+
+			this.#gridContainerElement.addEventListener("mouseup", () => {
+				this.#gridContainerElement.removeEventListener(
+					"mousemove",
+					this.#callback
+				);
+			});
+		}
+
+		if (mode == "continuous") {
+			this.#gridContainerElement.removeEventListener(
+				"mousedown",
+				this.#callback
+			);
+			this.#gridContainerElement.removeEventListener(
+				"mouseup",
+				this.#callback
+			);
+
+			this.#gridContainerElement.addEventListener(
+				"mousemove",
+				this.#callback
+			);
+		}
 	}
 
-	switchGridLines() {
+	switchGridLines(newState) {
+		this.#gridLinesVisible = newState;
 		for (let i = 0; i < this.#gridSize; i++) {
 			for (let j = 0; j < this.#gridSize; j++) {
 				this.#cells[i][j].classList.toggle("grid-lines-shown");
@@ -75,7 +123,12 @@ class Grid {
 			this.#cells[i] = [];
 			for (let j = 0; j < this.#gridSize; j++) {
 				const cell = document.createElement("div");
-				cell.className = "cell grid-lines-shown";
+				if (this.#gridLinesVisible) {
+					cell.className = "cell grid-lines-shown";
+				} else {
+					cell.className = "cell";
+				}
+
 				cell.style.width = width;
 				cell.style.height = width;
 				cell.draggable = false;
@@ -92,119 +145,123 @@ class Grid {
 		this.#createGrid();
 	}
 
-	#createGrid() {
-		this.#gridContainerElement = document.createElement("section");
-		this.#gridContainerElement.className = "grid";
-		this.#gridContainerElement.addEventListener("mousemove", (event) => {
-			const cell = event.target;
-			let color = this.#selectedColor;
-			if (this.#tool == "eraser") {
-				color = "white";
-			}
+	#eventHandler(event) {
+		const cell = event.target;
+		let color = this.#selectedColor;
+		if (this.#tool == "eraser") {
+			color = "white";
+		}
 
-			if (cell != this.#gridContainerElement) {
-				cell.style.backgroundColor = `var(--cell-${color})`;
-				if (this.#pencilSize > 1) {
-					const currentCellRow = Number(cell.dataset.row);
-					const currentCellColumn = Number(cell.dataset.column);
+		if (cell != this.#gridContainerElement) {
+			cell.style.backgroundColor = `var(--cell-${color})`;
+			if (this.#pencilSize > 1) {
+				const currentCellRow = Number(cell.dataset.row);
+				const currentCellColumn = Number(cell.dataset.column);
 
-					// left cell [0][-1]
-					if (currentCellColumn > 0) {
+				// left cell [0][-1]
+				if (currentCellColumn > 0) {
+					this.#cells[currentCellRow][
+						currentCellColumn - 1
+					].style.backgroundColor = `var(--cell-${color})`;
+				}
+
+				// top cell [-1][0]
+				if (currentCellRow > 0) {
+					this.#cells[currentCellRow - 1][
+						currentCellColumn
+					].style.backgroundColor = `var(--cell-${color})`;
+				}
+
+				// right cell [0][+1]
+				if (currentCellColumn < this.#gridSize - 1) {
+					this.#cells[currentCellRow][
+						currentCellColumn + 1
+					].style.backgroundColor = `var(--cell-${color})`;
+				}
+
+				// bottom cell [+1][0]
+				if (currentCellRow < this.#gridSize - 1) {
+					this.#cells[currentCellRow + 1][
+						currentCellColumn
+					].style.backgroundColor = `var(--cell-${color})`;
+				}
+
+				if (this.#pencilSize == 3) {
+					// left [0][-2]
+					if (currentCellColumn > 1) {
 						this.#cells[currentCellRow][
+							currentCellColumn - 2
+						].style.backgroundColor = `var(--cell-${color})`;
+					}
+
+					// left-top [-1][-1]
+					if (currentCellColumn > 0 && currentCellRow > 0) {
+						this.#cells[currentCellRow - 1][
 							currentCellColumn - 1
 						].style.backgroundColor = `var(--cell-${color})`;
 					}
 
-					// top cell [-1][0]
-					if (currentCellRow > 0) {
-						this.#cells[currentCellRow - 1][
+					// top [-2][0]
+					if (currentCellRow > 1) {
+						this.#cells[currentCellRow - 2][
 							currentCellColumn
 						].style.backgroundColor = `var(--cell-${color})`;
 					}
 
-					// right cell [0][+1]
-					if (currentCellColumn < this.#gridSize - 1) {
-						this.#cells[currentCellRow][
+					// right-top [-1][+1]
+					if (
+						currentCellColumn < this.#gridSize - 1 &&
+						currentCellRow > 0
+					) {
+						this.#cells[currentCellRow - 1][
 							currentCellColumn + 1
 						].style.backgroundColor = `var(--cell-${color})`;
 					}
 
-					// bottom cell [+1][0]
-					if (currentCellRow < this.#gridSize - 1) {
+					// right [0][+2]
+					if (currentCellColumn < this.#gridSize - 2) {
+						this.#cells[currentCellRow][
+							currentCellColumn + 2
+						].style.backgroundColor = `var(--cell-${color})`;
+					}
+
+					// right-bot [+1][+1]
+					if (
+						currentCellColumn < this.#gridSize - 1 &&
+						currentCellRow < this.#gridSize - 1
+					) {
 						this.#cells[currentCellRow + 1][
+							currentCellColumn + 1
+						].style.backgroundColor = `var(--cell-${color})`;
+					}
+
+					// bot [+2][0]
+					if (currentCellRow < this.#gridSize - 2) {
+						this.#cells[currentCellRow + 2][
 							currentCellColumn
 						].style.backgroundColor = `var(--cell-${color})`;
 					}
 
-					if (this.#pencilSize == 3) {
-						// left [0][-2]
-						if (currentCellColumn > 1) {
-							this.#cells[currentCellRow][
-								currentCellColumn - 2
-							].style.backgroundColor = `var(--cell-${color})`;
-						}
-
-						// left-top [-1][-1]
-						if (currentCellColumn > 0 && currentCellRow > 0) {
-							this.#cells[currentCellRow - 1][
-								currentCellColumn - 1
-							].style.backgroundColor = `var(--cell-${color})`;
-						}
-
-						// top [-2][0]
-						if (currentCellRow > 1) {
-							this.#cells[currentCellRow - 2][
-								currentCellColumn
-							].style.backgroundColor = `var(--cell-${color})`;
-						}
-
-						// right-top [-1][+1]
-						if (
-							currentCellColumn < this.#gridSize - 1 &&
-							currentCellRow > 0
-						) {
-							this.#cells[currentCellRow - 1][
-								currentCellColumn + 1
-							].style.backgroundColor = `var(--cell-${color})`;
-						}
-
-						// right [0][+2]
-						if (currentCellColumn < this.#gridSize - 2) {
-							this.#cells[currentCellRow][
-								currentCellColumn + 2
-							].style.backgroundColor = `var(--cell-${color})`;
-						}
-
-						// right-bot [+1][+1]
-						if (
-							currentCellColumn < this.#gridSize - 1 &&
-							currentCellRow < this.#gridSize - 1
-						) {
-							this.#cells[currentCellRow + 1][
-								currentCellColumn + 1
-							].style.backgroundColor = `var(--cell-${color})`;
-						}
-
-						// bot [+2][0]
-						if (currentCellRow < this.#gridSize - 2) {
-							this.#cells[currentCellRow + 2][
-								currentCellColumn
-							].style.backgroundColor = `var(--cell-${color})`;
-						}
-
-						// left-bot [+1][-1]
-						if (
-							currentCellRow < this.#gridSize - 1 &&
-							currentCellColumn > 0
-						) {
-							this.#cells[currentCellRow + 1][
-								currentCellColumn - 1
-							].style.backgroundColor = `var(--cell-${color})`;
-						}
+					// left-bot [+1][-1]
+					if (
+						currentCellRow < this.#gridSize - 1 &&
+						currentCellColumn > 0
+					) {
+						this.#cells[currentCellRow + 1][
+							currentCellColumn - 1
+						].style.backgroundColor = `var(--cell-${color})`;
 					}
 				}
 			}
-		});
+		}
+	}
+	#createGrid() {
+		this.#gridContainerElement = document.createElement("section");
+		this.#gridContainerElement.className = "grid";
+		this.#gridContainerElement.addEventListener(
+			"mousemove",
+			this.#callback
+		);
 		document
 			.querySelector("div.grid-wrapper")
 			.appendChild(this.#gridContainerElement);
@@ -246,8 +303,8 @@ toolPicker.addEventListener("change", function changeTool(e) {
 });
 
 const gridLinesCheckbox = document.querySelector("input.toggle-checkbox");
-gridLinesCheckbox.addEventListener("change", function switchGridLines() {
-	grid.switchGridLines();
+gridLinesCheckbox.addEventListener("change", function switchGridLines(e) {
+	grid.switchGridLines(e.target.checked);
 });
 
 const pencilModeMenu = document.querySelector(".mode-settings menu");
