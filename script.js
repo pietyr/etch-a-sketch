@@ -6,12 +6,14 @@ class Grid {
 	#selectedColor;
 	#pencilSize;
 	#cells;
+	#tool;
 
 	constructor(gridSize = 16) {
 		this.#gridSize = gridSize;
 		this.#gridContainerElement = document.querySelector("div.grid-wrapper");
 		this.#selectedColor = "black";
 		this.#pencilSize = 1;
+		this.#tool = "pencil";
 		this.#cells = [];
 		this.#createGrid();
 		this.#updateGridSize();
@@ -49,6 +51,10 @@ class Grid {
 		this.#pencilSize = newPencilSize;
 	}
 
+	changeTool(newTool) {
+		this.#tool = newTool;
+	}
+
 	#populateGrid() {
 		const width = `${this.cellWidth}px`;
 		for (let i = 0; i < this.#gridSize; i++) {
@@ -76,10 +82,13 @@ class Grid {
 		this.#gridContainerElement.className = "grid";
 		this.#gridContainerElement.addEventListener("mouseover", (event) => {
 			const cell = event.target;
+			let color = this.#selectedColor;
+			if (this.#tool == "eraser") {
+				color = "white";
+			}
+
 			if (cell != this.#gridContainerElement) {
-				cell.style.backgroundColor = `var(--cell-${
-					this.#selectedColor
-				})`;
+				cell.style.backgroundColor = `var(--cell-${color})`;
 				if (this.#pencilSize > 1) {
 					const currentCellRow = Number(cell.dataset.row);
 					const currentCellColumn = Number(cell.dataset.column);
@@ -88,36 +97,28 @@ class Grid {
 					if (currentCellColumn > 0) {
 						this.#cells[currentCellRow][
 							currentCellColumn - 1
-						].style.backgroundColor = `var(--cell-${
-							this.#selectedColor
-						})`;
+						].style.backgroundColor = `var(--cell-${color})`;
 					}
 
 					// top cell [-1][0]
 					if (currentCellRow > 0) {
 						this.#cells[currentCellRow - 1][
 							currentCellColumn
-						].style.backgroundColor = `var(--cell-${
-							this.#selectedColor
-						})`;
+						].style.backgroundColor = `var(--cell-${color})`;
 					}
 
 					// right cell [0][+1]
 					if (currentCellColumn < this.#gridSize - 1) {
 						this.#cells[currentCellRow][
 							currentCellColumn + 1
-						].style.backgroundColor = `var(--cell-${
-							this.#selectedColor
-						})`;
+						].style.backgroundColor = `var(--cell-${color})`;
 					}
 
 					// bottom cell [+1][0]
 					if (currentCellRow < this.#gridSize - 1) {
 						this.#cells[currentCellRow + 1][
 							currentCellColumn
-						].style.backgroundColor = `var(--cell-${
-							this.#selectedColor
-						})`;
+						].style.backgroundColor = `var(--cell-${color})`;
 					}
 
 					if (this.#pencilSize == 3) {
@@ -125,27 +126,21 @@ class Grid {
 						if (currentCellColumn > 1) {
 							this.#cells[currentCellRow][
 								currentCellColumn - 2
-							].style.backgroundColor = `var(--cell-${
-								this.#selectedColor
-							})`;
+							].style.backgroundColor = `var(--cell-${color})`;
 						}
 
 						// left-top [-1][-1]
 						if (currentCellColumn > 0 && currentCellRow > 0) {
 							this.#cells[currentCellRow - 1][
 								currentCellColumn - 1
-							].style.backgroundColor = `var(--cell-${
-								this.#selectedColor
-							})`;
+							].style.backgroundColor = `var(--cell-${color})`;
 						}
 
 						// top [-2][0]
 						if (currentCellRow > 1) {
 							this.#cells[currentCellRow - 2][
 								currentCellColumn
-							].style.backgroundColor = `var(--cell-${
-								this.#selectedColor
-							})`;
+							].style.backgroundColor = `var(--cell-${color})`;
 						}
 
 						// right-top [-1][+1]
@@ -155,18 +150,14 @@ class Grid {
 						) {
 							this.#cells[currentCellRow - 1][
 								currentCellColumn + 1
-							].style.backgroundColor = `var(--cell-${
-								this.#selectedColor
-							})`;
+							].style.backgroundColor = `var(--cell-${color})`;
 						}
 
 						// right [0][+2]
 						if (currentCellColumn < this.#gridSize - 2) {
 							this.#cells[currentCellRow][
 								currentCellColumn + 2
-							].style.backgroundColor = `var(--cell-${
-								this.#selectedColor
-							})`;
+							].style.backgroundColor = `var(--cell-${color})`;
 						}
 
 						// right-bot [+1][+1]
@@ -176,18 +167,14 @@ class Grid {
 						) {
 							this.#cells[currentCellRow + 1][
 								currentCellColumn + 1
-							].style.backgroundColor = `var(--cell-${
-								this.#selectedColor
-							})`;
+							].style.backgroundColor = `var(--cell-${color})`;
 						}
 
 						// bot [+2][0]
 						if (currentCellRow < this.#gridSize - 2) {
 							this.#cells[currentCellRow + 2][
 								currentCellColumn
-							].style.backgroundColor = `var(--cell-${
-								this.#selectedColor
-							})`;
+							].style.backgroundColor = `var(--cell-${color})`;
 						}
 
 						// left-bot [+1][-1]
@@ -197,9 +184,7 @@ class Grid {
 						) {
 							this.#cells[currentCellRow + 1][
 								currentCellColumn - 1
-							].style.backgroundColor = `var(--cell-${
-								this.#selectedColor
-							})`;
+							].style.backgroundColor = `var(--cell-${color})`;
 						}
 					}
 				}
@@ -238,6 +223,11 @@ clearGridButton.addEventListener("click", function clearGrid() {
 const pencilSizeSlider = document.querySelector(`input[name="pencil-size"]`);
 pencilSizeSlider.addEventListener("change", function changePencilSize(e) {
 	grid.changePencilSize(Number(e.target.value));
+});
+
+const toolPicker = document.querySelector("section.toolbar");
+toolPicker.addEventListener("change", function changeTool(e) {
+	grid.changeTool(e.target.value);
 });
 
 // const rootElement = document.querySelector(":root");
