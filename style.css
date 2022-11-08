@@ -448,6 +448,7 @@ section.toolbar {
 	gap: 1rem;
 	border-radius: 1rem;
 	padding: 1rem;
+	padding-bottom: 1.5rem;
 	background-color: var(--green);
 	-webkit-box-shadow: inset 4px 4px 32px -4px rgba(0, 0, 0, 1);
 	-moz-box-shadow: inset 4px 4px 32px -4px rgba(0, 0, 0, 1);
@@ -535,6 +536,7 @@ section.color-picker {
 	gap: 1rem;
 	border-radius: 1rem;
 	padding: 1rem;
+	padding-bottom: 1.5rem;
 	background-color: var(--green);
 	-webkit-box-shadow: inset 4px 4px 32px -4px rgba(0, 0, 0, 1);
 	-moz-box-shadow: inset 4px 4px 32px -4px rgba(0, 0, 0, 1);
