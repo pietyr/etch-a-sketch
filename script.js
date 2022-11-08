@@ -7,6 +7,7 @@ class Grid {
 	#pencilSize;
 	#cells;
 	#tool;
+	#pencilMode;
 
 	constructor(gridSize = 16) {
 		this.#gridSize = gridSize;
@@ -14,6 +15,7 @@ class Grid {
 		this.#selectedColor = "black";
 		this.#pencilSize = 1;
 		this.#tool = "pencil";
+		this.#pencilMode = "continuous";
 		this.#cells = [];
 		this.#createGrid();
 		this.#updateGridSize();
@@ -55,15 +57,28 @@ class Grid {
 		this.#tool = newTool;
 	}
 
+	changePencilMode(mode) {
+		this.#pencilMode = mode;
+	}
+
+	switchGridLines() {
+		for (let i = 0; i < this.#gridSize; i++) {
+			for (let j = 0; j < this.#gridSize; j++) {
+				this.#cells[i][j].classList.toggle("grid-lines-shown");
+			}
+		}
+	}
+
 	#populateGrid() {
 		const width = `${this.cellWidth}px`;
 		for (let i = 0; i < this.#gridSize; i++) {
 			this.#cells[i] = [];
 			for (let j = 0; j < this.#gridSize; j++) {
 				const cell = document.createElement("div");
-				cell.className = "cell";
+				cell.className = "cell grid-lines-shown";
 				cell.style.width = width;
 				cell.style.height = width;
+				cell.draggable = false;
 				cell.dataset.column = j;
 				cell.dataset.row = i;
 				this.#cells[i][j] = cell;
@@ -80,7 +95,7 @@ class Grid {
 	#createGrid() {
 		this.#gridContainerElement = document.createElement("section");
 		this.#gridContainerElement.className = "grid";
-		this.#gridContainerElement.addEventListener("mouseover", (event) => {
+		this.#gridContainerElement.addEventListener("mousemove", (event) => {
 			const cell = event.target;
 			let color = this.#selectedColor;
 			if (this.#tool == "eraser") {
@@ -228,6 +243,16 @@ pencilSizeSlider.addEventListener("change", function changePencilSize(e) {
 const toolPicker = document.querySelector("section.toolbar");
 toolPicker.addEventListener("change", function changeTool(e) {
 	grid.changeTool(e.target.value);
+});
+
+const gridLinesCheckbox = document.querySelector("input.toggle-checkbox");
+gridLinesCheckbox.addEventListener("change", function switchGridLines() {
+	grid.switchGridLines();
+});
+
+const pencilModeMenu = document.querySelector(".mode-settings menu");
+pencilModeMenu.addEventListener("change", function changePencilMode(e) {
+	grid.changePencilMode(e.target.value);
 });
 
 // const rootElement = document.querySelector(":root");

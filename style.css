@@ -111,8 +111,12 @@ section.grid {
 
 div.cell {
 	background-color: white;
-	border: 1px solid var(--grid-line-color);
 	transition: 0.2s;
+	border: 1px solid transparent;
+}
+
+div.cell.grid-lines-shown {
+	border: 1px solid var(--grid-line-color);
 }
 
 div.interface {
